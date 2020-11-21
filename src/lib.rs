@@ -36,7 +36,7 @@ use syn::spanned::Spanned;
 /// # Examples
 ///
 /// ```ignore
-/// #[async_std::main]
+/// #[agnostik::main]
 /// async fn main() -> std::io::Result<()> {
 ///     Ok(())
 /// }
@@ -55,7 +55,7 @@ pub fn main(_attr: TokenStream, item: TokenStream) -> TokenStream {
 
     if name != "main" {
         return TokenStream::from(quote_spanned! { name.span() =>
-            compile_error!("only the main function can be tagged with #[async_std::main]"),
+            compile_error!("only the main function can be tagged with #[agnostik::main]"),
         });
     }
 
@@ -72,7 +72,7 @@ pub fn main(_attr: TokenStream, item: TokenStream) -> TokenStream {
                 #body
             }
 
-            async_std::task::block_on(async {
+            agnostik::block_on(async {
                 main().await
             })
         }
@@ -87,7 +87,7 @@ pub fn main(_attr: TokenStream, item: TokenStream) -> TokenStream {
 /// # Examples
 ///
 /// ```ignore
-/// #[async_std::test]
+/// #[agnostik::test]
 /// async fn my_test() -> std::io::Result<()> {
 ///     assert_eq!(2 * 2, 4);
 ///     Ok(())
@@ -113,7 +113,7 @@ pub fn test(_attr: TokenStream, item: TokenStream) -> TokenStream {
         #[test]
         #(#attrs)*
         #vis fn #name() #ret {
-            async_std::task::block_on(async { #body })
+            agnostik::block_on(async { #body })
         }
     };
 
@@ -128,7 +128,7 @@ pub fn test(_attr: TokenStream, item: TokenStream) -> TokenStream {
 /// #![feature(test)]
 /// extern crate test;
 ///
-/// #[async_std::bench]
+/// #[agnostik::bench]
 /// async fn bench_1(b: &mut test::Bencher) {
 ///     b.iter(|| {
 ///         println!("hello world");

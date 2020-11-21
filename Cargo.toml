@@ -1,5 +1,5 @@
 [package]
-name = "async-attributes"
+name = "agnostik-attributes"
 description = "Experimental language-level polyfills for Async Rust."
 version = "1.1.1"
 license = "MIT OR Apache-2.0"
@@ -16,8 +16,8 @@ edition = "2018"
 proc-macro = true
 
 [dependencies]
-syn = { version = "1.0", features = ["full"] }
-quote = "1.0"
+syn = { version = "1.0.48", features = ["full"] }
+quote = "1.0.7"
 
 [dev-dependencies]
-async-std = "0.99.5"
+agnostik = { path = "../agnostik", features = ["runtime_asyncstd"] }
